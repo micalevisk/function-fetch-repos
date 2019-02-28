@@ -1,0 +1,17 @@
+{
+  "name": "function-fetch-repos",
+  "description": "Serveless function to fetch my repositories",
+  "version": "1.0.0",
+  "main": "fetchRepos.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec \"npm run wt:serve\" --watch fetchRepos.js",
+    "deploy": "npm run wt:create",
+    "wt:serve": "wt serve . --secrets-file ./.env --hostname localhost --port 1234",
+    "wt:create": "wt create --bundle . --secrets-file ./.env --name xfetchx",
+    "wt:update": "wt update fetch-micalevisk-repos ."
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
