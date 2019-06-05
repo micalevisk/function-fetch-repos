@@ -12,6 +12,6 @@
     "wt:update": "wt update fetch-micalevisk-repos ."
   },
   "dependencies": {
-    "axios": "^0.18.1"
+    "axios": "^0.19.0"
   }
 }
