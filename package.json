@@ -1,6 +1,6 @@
 {
-  "name": "function-fetch-repos",
-  "description": "Serveless function to fetch my repositories",
+  "private": true,
+  "description": "Serveless function to fetch GitHub repositories of @micalevisk",
   "version": "1.0.0",
   "main": "fetchRepos.js",
   "license": "MIT",
@@ -12,6 +12,6 @@
     "wt:update": "wt update fetch-micalevisk-repos ."
   },
   "dependencies": {
-    "axios": "^0.21.2"
+    "axios": "^0.26.1"
   }
 }
