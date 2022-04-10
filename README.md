@@ -1,12 +1,18 @@
 ## development
+
 ```bash
-$ yarn install
-$ touch .env
-## and set like `.env.example` file
-$ npm start
+npm install --global wt-cli
+
+yarn install
+cp .env.example .env # and edit this file
+yarn start
 ```
 
-## deploy (to https://webtask.io)
+## deploy to https://webtask.io
+
 ```bash
-$ npm run deploy
+## First deploy:
+npm run wt:create
+## Updates
+npm run wt:update
 ```

@@ -1,12 +1,11 @@
-// inspirado em https://github.com/stursby/hasvuepassedreactyet/blob/master/functions/fetchGithubStars.js
-const axios = require('axios');
+const request = require('node-fetch');
 
 // https://developer.github.com/v4/explorer
 const gitHubGrapQLAPI = {
   baseURL: 'https://api.github.com',
   endpoint: 'graphql',
   queries: {
-    getRepositories: (numberOfRepos = 100, numberOfLangs = 10) => `
+    fetchRepos: (numberOfRepos = 100, numberOfLangs = 10) => `#graphql
       query {
         viewer {
           bio
@@ -47,24 +46,29 @@ const gitHubGrapQLAPI = {
 
 
 /**
- * @param context {WebtaskContext}
+ * @param {WebtaskContext} context
+ * @param {Function} doneCallback
  */
-module.exports = function(context, cb) {
+module.exports = function fetch(context, doneCallback) {
   const { GITHUB_TOKEN } = context.secrets;
   const { baseURL, endpoint, queries } = gitHubGrapQLAPI;
 
-  // Github GraphQL axios instance
-  const github = axios.create({
-    baseURL,
+  return request(new URL(endpoint, baseURL), {
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${GITHUB_TOKEN}`
-    }
-  });
-
-  github.post(endpoint, { query: queries.getRepositories() })
-        .catch(err => {
-          console.error(err);
-          return cb(err);
-        })
-        .then(res => cb(null, res.data));
+    },
+    body: JSON.stringify({
+      query: queries.fetchRepos(),
+    })
+  })
+    .then(res => {
+      if (res.status !== 200) throw new Error(res.statusText);
+      return res.json();
+    })
+    .then(data => doneCallback(null, data))
+    .catch(err => {
+      console.error(err);
+      doneCallback(err);
+    })
 };
